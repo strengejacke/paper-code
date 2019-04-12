@@ -50,6 +50,8 @@ efc_new$response <- set_labels(efc_new$response, labels = c("Non-Respondents", "
 efc_new <- efc_new %>%
   mutate(
     inv_weight = (1 / propensity_score * response) + (1 / (1 - propensity_score) * (1 - response)),
+    # alternative calculation, same results
+    inv_weight2 = ifelse(response == 1, 1 / propensity_score, 1 / (1 - propensity_score)),
     response_label = as_label(response),
     adj_inv_weight = inv_weight / mean(inv_weight, na.rm = TRUE)
   )
