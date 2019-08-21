@@ -10,6 +10,7 @@ library(brms)
 
 # Data available at https://doi.org/10.5281/zenodo.1479676
 
+
 # load data ----
 
 load("Dataset.RData")
@@ -17,6 +18,7 @@ load("Dataset.RData")
 # divide age by 10
 
 d$age10 <- d$age / 10
+
 
 
 # Labels for final model ----
@@ -48,6 +50,7 @@ labs <-
     b_cci_c = "Charlson's Comorbidity Index",
     b_chemicalres1 = "Psychotropic Drug Use" # oder as-needed
   )
+
 
 # prior-definition in brms ----
 
@@ -85,6 +88,7 @@ bprior <-
 # multiplied by 2.2 (rescaling 45-points to 100-point-scale of QUALIDEM)
 
 
+
 # model formula ----
 
 mf <-
@@ -95,6 +99,7 @@ mf <-
   )
 
 
+
 # brms-model ----
 
 set.seed(1207)
@@ -103,8 +108,10 @@ m2a <- brm(
   formula = mf,
   data = d,
   prior = bprior,
-  sample_prior = TRUE
+  sample_prior = TRUE,
+  cores = 4
 )
+
 
 
 # Figure 3 ----
@@ -140,23 +147,18 @@ ggsave(filename = "Fig3.tiff", plot = p, width = 170, height = 120, units = "mm"
 ggsave(filename = "Fig3.pdf", scale = 2, plot = p_pdf, width = 170, height = 120, units = "mm", dpi = 300)
 
 
-# Appendix S1: Test for practical equivalence ----
-
-rope(m2a, rope = c(-6, 6))
-rope(m2a, rope = c(-7.5, 7.5))
-
-equivalence_test(m2a, parameters = "^(?!prior)")
-equivalence_test(m2a, parameters = "^(?!prior)") %>% plot()
 
 
 # Appendix S1, Table Regression Coefficients ----
 
-tab_df(tidy_stan(m2a, prob = c(.5, .89), digits = 1))
+tidy_stan(m2a, prob = c(.5, .89), digits = 1, effects = "fixed")
+
 
 
 # Appendix S1, Prior Adjustement ----
 
 insight::get_priors(m2a)
+
 
 
 # Appendix S1, Figure distribution Posterior Samples ----
@@ -178,6 +180,7 @@ p2 <- ggplot(tmp, aes(x = estimate, y = predictor)) +
   theme_sjplot2(base_size = 14, base_family = "serif")
 
 ggsave(filename = "FigS1.tiff", plot = p2, width = 190, height = 120, units = "mm", dpi = 300)
+
 
 
 # Appendix S1, test for practical equivalence ----
@@ -235,6 +238,7 @@ p3 <- ggplot(tmp2, aes(x = estimate, y = predictor, fill = grp)) +
 ggsave(filename = "FigS2.tiff", plot = p3, width = 190, height = 120, units = "mm", dpi = 300)
 
 
+
 # Appendix S1, Posterior-Prior-Check ----
 
 ## Short version
@@ -272,8 +276,6 @@ p4 <- ggplot(m_pp_data, aes(x = Estimate, fill = Sample)) +
     axis.line.y      = element_line(colour = "grey50"),
     axis.text        = element_text(colour = "grey10"),
     axis.title       = element_text(colour = "black"),
-    # strip.background = element_rect(colour = "grey50", fill = "grey90"),
-    # strip.text       = element_text(colour = "grey20"),
     legend.title     = element_text(colour = "grey10"),
     legend.text      = element_text(colour = "grey20"),
     legend.position  = c(.5, .15),
@@ -282,6 +284,7 @@ p4 <- ggplot(m_pp_data, aes(x = Estimate, fill = Sample)) +
   scale_fill_manual(values = sjplot_pal("breakfast club")[c(1, 3)])
 
 ggsave(filename = "FigS3.tiff", plot = p4, width = 190, height = 214, units = "mm", dpi = 300)
+
 
 
 # Appendix S1, Traceplot ----
@@ -309,8 +312,6 @@ p5 <- ggplot(tmp, aes(x = iteration, y = value, colour = chain)) +
     axis.line.y      = element_line(colour = "grey50"),
     axis.text        = element_text(colour = "grey10"),
     axis.title       = element_text(colour = "black"),
-    # strip.background = element_rect(colour = "grey50", fill = "grey90"),
-    # strip.text       = element_text(colour = "grey20"),
     legend.title     = element_text(colour = "grey10"),
     legend.text      = element_text(colour = "grey20"),
     legend.position  = c(.5, .15),
