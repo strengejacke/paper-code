@@ -2,7 +2,7 @@
 
 This repository contains the data and R code that was used in analyses in my published papers and other research.
 
-* Lüdecke D, Poppele G, Klein J, Kofahl C (2019) Quality of Life of Patients with Dementia in Acute Hospitals: A non-randomised case-control-study comparing a regular ward to a special care ward with dementia care concept. BMJ Open. Accepted Manuscript.
+* Lüdecke D, Poppele G, Klein J, Kofahl C (2019= Quality of life of patients with dementia in acute hospitals in Germany: a non-randomised, case–control study comparing a regular ward with a special care ward with dementia care conceptBMJ Open 2019;9:e030743. [doi: 10.1136/bmjopen-2019-030743](https://doi.org/10.1136/bmjopen-2019-030743)
 
 Code: [2019 - BMJ Open - QoL Dementia](/2019%20-%20BMJ%20Open%20-%20QoL%20Dementia)
 
