@@ -194,7 +194,7 @@ equivalence_test(m2a, parameters = "^(?!prior)") %>% plot()
 ## More beautiful tweaked version
 
 tmp.hdi <- hdi(m2a, prob = .95) %>%
-  slice(c(-c(1, 13:23)))
+  slice(2:12)
 
 tmp2 <- m2a %>%
   as_tibble() %>%
