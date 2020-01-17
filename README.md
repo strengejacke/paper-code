@@ -4,7 +4,7 @@ This repository contains the data and R code that was used in analyses in my pub
 
 * Lüdecke D, Kofahl C (2020) Einsatz von sedierenden Medikamenten und bewegungseinschränkenden Maßnahmen bei Patienten mit Demenz im Akut-Krankenhaus. Eine nicht-randomisierte Fall-Kontrollstudie. Zeitschrift für Gerontologie und Geriatrie (in print)
 
-Code: [2020 - ZfGG - Sedierung](/2020%20-%20Zfgg%20-%20Sedierung)
+Code: [2020 - ZfGG - Sedierung](/2020%20-%20ZfGG%20-%20Sedierung)
 
 * Lüdecke D, Poppele G, Klein J, Kofahl C (2019) Quality of life of patients with dementia in acute hospitals in Germany: a non-randomised, case–control study comparing a regular ward with a special care ward with dementia care conceptBMJ Open 2019;9:e030743. [doi: 10.1136/bmjopen-2019-030743](https://doi.org/10.1136/bmjopen-2019-030743)
 
