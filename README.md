@@ -2,7 +2,11 @@
 
 This repository contains the data and R code that was used in analyses in my published papers and other research.
 
-* Lüdecke D, Kofahl C (2020) Einsatz von sedierenden Medikamenten und bewegungseinschränkenden Maßnahmen bei Patienten mit Demenz im Akut-Krankenhaus. Eine nicht-randomisierte Fall-Kontrollstudie. Zeitschrift für Gerontologie und Geriatrie (in print)
+* Klein J, Knesebeck Ovd, Lüdecke D (2020) Social Inequalities and Loneliness as Predictors of Ageing Well: A Trend Analysis Using Mixed Models. Int. J. Environ. Res. Public Health 2020, 17(15), 5314; [doi: 10.3390/ijerph17155314](https://doi.org/10.3390/ijerph17155314)
+
+Code: [2020 - IJERPH - Ageing Well](/2020%20-%20IJERPH%20-%20Ageing%20Well)
+
+* Lüdecke D, Kofahl C (2020) Einsatz von sedierenden Medikamenten und bewegungseinschränkenden Maßnahmen bei Patienten mit Demenz im Akut-Krankenhaus. Eine nicht-randomisierte Fall-Kontrollstudie. Zeitschrift für Gerontologie und Geriatrie (53), 138-144. [doi: 10.1007/s00391-020-01697-3](https://doi.org/10.1007/s00391-020-01697-3)
 
 Code: [2020 - ZfGG - Sedierung](/2020%20-%20ZfGG%20-%20Sedierung)
 
