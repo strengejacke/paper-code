@@ -1,10 +1,11 @@
 library(ggplot2)
 library(ggeffects)
+library(see)
 
 
 # Grafik Modelle 3 und 4 ---------------------------
 
-create_plot <- function(emm, model = "model3", y_title = NULL, legend_title = NULL, title = NULL, small_font_size = 7.5, large_font_size = 8.5, width = 2.5, height = 3) {
+create_plot <- function(emm, model = "model3", y_title = NULL, legend_title = NULL, title = NULL, small_font_size = 7.5, large_font_size = 8.5, width = 2.5, height = 3, ylim = c(70, 90)) {
   ggplot(emm, aes(x = x, y = predicted, ymin = conf.low, ymax = conf.high, colour = group, fill = group)) +
     geom_ribbon(alpha = .2, colour = NA) +
     geom_line() +
@@ -24,7 +25,8 @@ create_plot <- function(emm, model = "model3", y_title = NULL, legend_title = NU
     scale_color_manual(values = c("#E41A1C", "#4DAF4A", "#377EB8"), guide = "none") +
     scale_fill_manual(values = c("#E41A1C", "#4DAF4A", "#377EB8")) +
     labs(y = NULL, x = NULL, color = NULL, title = title, fill = legend_title) +
-    theme(legend.position = "bottom", legend.key.size = unit(.3, "cm"))
+    theme(legend.position = "bottom", legend.key.size = unit(.3, "cm")) +
+    ylim(ylim)
 
   ggsave(sprintf("%s_%s.tiff", model, title), scale = .85, device = "tiff", width = width, height = height, dpi = 600, compression = "lzw")
 }
@@ -64,6 +66,6 @@ levels(m2$group) <- c("-1 SD", "Mean", "+1 SD")
 m3$Model = "Loneliness"
 levels(m3$group) <- c("-1 SD", "Mean", "+1 SD")
 
-create_plot(m1, model = "model4", title = "(a) Optimism and Education")
-create_plot(m2, model = "model4", title = "(b) Optimism and Income")
-create_plot(m3, model = "model4", title = "(c) Optimism and Loneliness")
+create_plot(m1, model = "model4", title = "(a) Optimism and Education", ylim = c(55, 75))
+create_plot(m2, model = "model4", title = "(b) Optimism and Income", ylim = c(55, 75))
+create_plot(m3, model = "model4", title = "(c) Optimism and Loneliness", ylim = c(55, 75))
