@@ -31,6 +31,8 @@ npi <- tidycovid19::download_acaps_npi_data() %>%
 # recodes -------------------
 
 d$bildung <- d$education_cat
+d$education <- d$education_cat
+d$education <- relevel(d$education, ref = "Hoch")
 d$alter <- d$age_cat
 d$hh_groesse <- d$household
 
@@ -82,7 +84,7 @@ library(iterake)
 # 4-Personen Haushalt	9.14
 # 5 und mehr	3.44
 #
-# Bildung (%) [5]
+# Education (%) [5]
 # ≤ 9 Jahre	35.75
 # 10 Jahre	30. 95
 # ≥ 12 Jahre	33.15

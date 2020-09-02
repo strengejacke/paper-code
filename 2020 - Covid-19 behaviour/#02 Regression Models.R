@@ -5,7 +5,7 @@ library(parameters)
 # I have avoided certain (busy) places  ----
 
 m1 <- glm(
-  avoidplaces ~ bildung + sex + alter + marstat + hh_groesse,
+  avoidplaces ~ education + sex + alter + marstat + hh_groesse,
   data = d,
   weights = weight,
   family = binomial()
@@ -18,7 +18,7 @@ print(model_parameters(m1, exponentiate = TRUE), select = "minimal")
 # I have adapted my school or work situation ----
 
 m2 <- glm(
-  worksituation ~ bildung + sex + alter + marstat + hh_groesse,
+  worksituation ~ education + sex + alter + marstat + hh_groesse,
   data = d,
   weights = weight,
   family = binomial()
@@ -31,7 +31,7 @@ print(model_parameters(m2, exponentiate = TRUE), select = "minimal")
 # I washed my hands more often and longer ----
 
 m3 <- glm(
-  handwashing ~ bildung + sex + alter + marstat + hh_groesse,
+  handwashing ~ education + sex + alter + marstat + hh_groesse,
   data = d,
   weights = weight,
   family = binomial()
@@ -44,7 +44,7 @@ print(model_parameters(m3, exponentiate = TRUE), select = "minimal")
 # I have kept distance to other people (at least 1.5 meters) ----
 
 m4 <- glm(
-  keptdistance ~ bildung + sex + alter + marstat + hh_groesse,
+  keptdistance ~ education + sex + alter + marstat + hh_groesse,
   data = d,
   weights = weight,
   family = binomial()
@@ -57,7 +57,7 @@ print(model_parameters(m4, exponentiate = TRUE), select = "minimal")
 # I have quarantined myself, although I have no symptoms ----
 
 m5 <- glm(
-  quarantinenosymptoms ~ bildung + sex + alter + marstat + hh_groesse,
+  quarantinenosymptoms ~ education + sex + alter + marstat + hh_groesse,
   data = d,
   weights = weight,
   family = binomial()
@@ -70,7 +70,7 @@ print(model_parameters(m5, exponentiate = TRUE), select = "minimal")
 # I used disinfectant ----
 
 m6 <- glm(
-  desinfectant ~ bildung + sex + alter + marstat + hh_groesse,
+  desinfectant ~ education + sex + alter + marstat + hh_groesse,
   data = d,
   weights = weight,
   family = binomial()
@@ -83,7 +83,7 @@ print(model_parameters(m6, exponentiate = TRUE), select = "minimal")
 # I have reduced personal meetings and contacts ----
 
 m7 <- glm(
-  reducesocial ~ bildung + sex + alter + marstat + hh_groesse,
+  reducesocial ~ education + sex + alter + marstat + hh_groesse,
   data = d,
   weights = weight,
   family = binomial()
@@ -96,7 +96,7 @@ print(model_parameters(m7, exponentiate = TRUE), select = "minimal")
 # I was wearing face masks ----
 
 m8 <- glm(
-  facemask ~ bildung + sex + alter + marstat + hh_groesse,
+  facemask ~ education + sex + alter + marstat + hh_groesse,
   data = d,
   weights = weight,
   family = binomial()
@@ -109,7 +109,7 @@ print(model_parameters(m8, exponentiate = TRUE), select = "minimal")
 # I have taken none of these measures ----
 
 m9 <- glm(
-  nomeasures ~ bildung + sex + alter + marstat + hh_groesse,
+  nomeasures ~ education + sex + alter + marstat + hh_groesse,
   data = d,
   weights = weight,
   family = binomial()
