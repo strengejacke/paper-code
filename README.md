@@ -2,6 +2,10 @@
 
 This repository contains the data and R code that was used in analyses in my published papers and other research.
 
+* Lüdecke D, Knesebeck Ovd (2020) Protective behavior in course of the COVID-19 outbreak - survey results from Germany.  Front. Public Health
+
+Code: [2020 - FPH - COVID-19 protective behaviour](/2020%20-%20FPH%20-%20COVID-19%20protective%20behaviour)
+
 * Klein J, Knesebeck Ovd, Lüdecke D (2020) Social Inequalities and Loneliness as Predictors of Ageing Well: A Trend Analysis Using Mixed Models. Int. J. Environ. Res. Public Health 2020, 17(15), 5314; [doi: 10.3390/ijerph17155314](https://doi.org/10.3390/ijerph17155314)
 
 Code: [2020 - IJERPH - Ageing Well](/2020%20-%20IJERPH%20-%20Ageing%20Well)
