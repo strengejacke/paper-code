@@ -14,13 +14,17 @@ Code: [2020 - IJERPH - Ageing Well](/2020%20-%20IJERPH%20-%20Ageing%20Well)
 
 Code: [2020 - ZfGG - Sedierung](/2020%20-%20ZfGG%20-%20Sedierung)
 
-* Makowski D, Ben-Shachar MS, Chen SHA, Lüdecke D (2019) Indices of Effect Existence and Significance in the Bayesian Framework. Frontiers in Psychology 2019;10:2767. [doi: 10.3389/fpsyg.2019.02767](https://doi.org/10.3389/fpsyg.2019.02767)
+* Knesebeck Ovd, Lüdecke D, Luck-Sikorski C, Kim TJ (2019) Public beliefs about causes of obesity in the USA and in Germany. Int J Public Health. [doi: 10.1007/s00038-019-01295-0](https://doi.org/10.1007/s00038-019-01295-0)
 
-Code: [2019 - Front Psych - Bayesian Indices](/2019%20-%20FrontPsych%20-%20Bayesian%20Indices)
+Code: [2019 - IPJH - Obesity](/2019%20-%20IPJH%20-%20Obesity)
 
 * Lüdecke D, Poppele G, Klein J, Kofahl C (2019) Quality of life of patients with dementia in acute hospitals in Germany: a non-randomised, case–control study comparing a regular ward with a special care ward with dementia care conceptBMJ Open 2019;9:e030743. [doi: 10.1136/bmjopen-2019-030743](https://doi.org/10.1136/bmjopen-2019-030743)
 
 Code: [2019 - BMJ Open - QoL Dementia](/2019%20-%20BMJ%20Open%20-%20QoL%20Dementia)
+
+* Makowski D, Ben-Shachar MS, Chen SHA, Lüdecke D (2019) Indices of Effect Existence and Significance in the Bayesian Framework. Frontiers in Psychology 2019;10:2767. [doi: 10.3389/fpsyg.2019.02767](https://doi.org/10.3389/fpsyg.2019.02767)
+
+Code: [2019 - Front Psych - Bayesian Indices](/2019%20-%20FrontPsych%20-%20Bayesian%20Indices)
 
 * Lüdecke D, Bien B, McKee K, Krevers B, Mestheneos E, Di Rosa M, von dem Knesebeck O, Kofahl C (2018) Factors predicting outcomes of family care of older people over a one-year period. A six-country European study. PLOS ONE 13(4): e0195294. [doi: 10.1371/journal.pone.0195294](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0195294)
 
