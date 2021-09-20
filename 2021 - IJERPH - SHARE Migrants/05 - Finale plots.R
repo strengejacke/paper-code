@@ -58,14 +58,33 @@ m6 <- svyglm(f6, family = quasibinomial(), design = design)
 # Plot-Funktion --------------------------------
 
 
-abbildung <- function(predict_data,
+abbildung <- function(model,
+                      predict_data,
                       filter_facet,
                       filter_panel,
                       title = NULL,
                       prozent_label = TRUE,
                       jahr_labels = TRUE,
                       legend = FALSE,
-                      ylim = c(0, 1)) {
+                      ylim = c(0, 1),
+                      y_dodge = -0.05) {
+
+  emm <- emtrends(model,
+                  c("migrant", "Age", "gender"),
+                  var = "wave",
+                  at = list(Age = c(-1, 1)),
+                  adjust = "none")
+
+  p_for_trends <- model_parameters(emm) %>%
+    rec(Age, rec = c("-1=lower;1=higher"), suffix = "") |>
+    filter(p < 0.05) |>
+    select(-Coefficient, -SE, -CI_low, -CI_high, -z, - CI, - df_error) |>
+    as.data.frame() |>
+    sjmisc::rename_columns(migrant = "group", Age = "facet", gender = "panel") |>
+    mutate(x = 6.0)
+
+  predict_data <- merge(predict_data, p_for_trends, all = TRUE)
+  predict_data$p <- insight::format_p(predict_data$p)
 
   round_percent <- function(ylim) {
     sprintf("%g%%", round(100 * seq(ylim[1], ylim[2], .05)))
@@ -76,6 +95,7 @@ abbildung <- function(predict_data,
                              ymax = conf.high, fill = group, colour = group)) +
     geom_ribbon(alpha = .2, colour = NA) +
     geom_line() +
+    geom_text(aes(label = p), nudge_y = y_dodge) +
     see::scale_color_flat() +
     see::scale_fill_flat() +
     see::theme_modern()
@@ -118,14 +138,16 @@ pr1 <- ggemmeans(m1, c("wave [1:7 by=.5]", "migrant", "Age [-1,1]", "gender"))
 pr1$facet <- factor(pr1$facet, labels = c("lower", "higher"))
 pr1_range <- c(.35, .6)
 
-p1 <- abbildung(pr1,
+p1 <- abbildung(m1,
+                pr1,
                 "lower",
                 "male",
                 title = "a) Lower aged male",
                 jahr_labels = FALSE,
                 ylim = pr1_range)
 
-p2 <- abbildung(pr1,
+p2 <- abbildung(m1,
+                pr1,
                 "lower",
                 "female",
                 prozent_label = FALSE,
@@ -133,13 +155,15 @@ p2 <- abbildung(pr1,
                 title = "c) Lower aged female",
                 ylim = pr1_range)
 
-p3 <- abbildung(pr1,
+p3 <- abbildung(m1,
+                pr1,
                 "higher",
                 "male",
                 title = "b) Higher aged male",
                 ylim = pr1_range)
 
-p4 <- abbildung(pr1,
+p4 <- abbildung(m1,
+                pr1,
                 "higher",
                 "female",
                 prozent_label = FALSE,
@@ -164,14 +188,16 @@ pr2 <- ggemmeans(m6, c("wave [1:7 by=.5]", "migrant", "Age [-1,1]", "gender"))
 pr2$facet <- factor(pr2$facet, labels = c("lower", "higher"))
 pr2_range <- c(.15, .45)
 
-p1 <- abbildung(pr2,
+p1 <- abbildung(m6,
+                pr2,
                 "lower",
                 "male",
                 title = "a) Lower aged male",
                 jahr_labels = FALSE,
                 ylim = pr2_range)
 
-p2 <- abbildung(pr2,
+p2 <- abbildung(m6,
+                pr2,
                 "lower",
                 "female",
                 prozent_label = FALSE,
@@ -179,13 +205,15 @@ p2 <- abbildung(pr2,
                 title = "c) Lower aged female",
                 ylim = pr2_range)
 
-p3 <- abbildung(pr2,
+p3 <- abbildung(m6,
+                pr2,
                 "higher",
                 "male",
                 title = "b) Higher aged male",
                 ylim = pr2_range)
 
-p4 <- abbildung(pr2,
+p4 <- abbildung(m6,
+                pr2,
                 "higher",
                 "female",
                 prozent_label = FALSE,
@@ -208,34 +236,42 @@ pr3 <- ggemmeans(m5, c("wave [1:7 by=.5]", "migrant", "Age [-1,1]", "gender"))
 pr3$facet <- factor(pr3$facet, labels = c("lower", "higher"))
 pr3_range <- c(.65, .9)
 
-p1 <- abbildung(pr3,
+p1 <- abbildung(m5,
+                pr3,
                 "lower",
                 "male",
                 title = "a) Lower aged male",
                 jahr_labels = FALSE,
-                ylim = pr3_range)
+                ylim = pr3_range,
+                y_dodge = -0.03)
 
-p2 <- abbildung(pr3,
+p2 <- abbildung(m5,
+                pr3,
                 "lower",
                 "female",
                 prozent_label = FALSE,
                 jahr_labels = FALSE,
                 title = "c) Lower aged female",
-                ylim = pr3_range)
+                ylim = pr3_range,
+                y_dodge = -0.03)
 
-p3 <- abbildung(pr3,
+p3 <- abbildung(m5,
+                pr3,
                 "higher",
                 "male",
                 title = "b) Higher aged male",
-                ylim = pr3_range)
+                ylim = pr3_range,
+                y_dodge = -0.03)
 
-p4 <- abbildung(pr3,
+p4 <- abbildung(m5,
+                pr3,
                 "higher",
                 "female",
                 prozent_label = FALSE,
                 title = "d) Higher aged female",
                 ylim = pr3_range,
-                legend = TRUE)
+                legend = TRUE,
+                y_dodge = -0.03)
 
 
 p1 + p2 + p3 + p4
