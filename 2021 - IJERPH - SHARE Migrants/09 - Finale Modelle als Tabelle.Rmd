@@ -1,0 +1,81 @@
+---
+title: "Modelle mit Interaktionsterm"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, dpi = 150, fig.width = 10, fig.height = 8)
+library(dplyr)
+library(strengejacke)
+library(easystats)
+library(glmmTMB)
+library(ggplot2)
+library(ggeffects)
+library(emmeans)
+library(survey)
+
+load("share.RData")
+
+share <- share %>%
+  to_label(eurodcat, age_dicho, living, gender, make_ends_meet, education,
+           migrant, migrant_western, country, chron_cond, gali, iadl_d,
+           sphus_d, limited_adl_d, eurodcat)
+
+d <- share %>%
+  dplyr::filter(!is.na(crossin_weights)) %>%
+  select(eurodcat, wave, migrant, age_between, gender, living, education, hhsize,
+         age_within, mergeid, crossin_weights, country, sphus, chron_n, chron_cond,
+         gali, iadl, limited_adl, limited_adl_d, iadl_d, sphus_d, age_dicho, eurodcat)
+
+design <- svydesign(
+  ids = ~ mergeid,
+  weights = ~ crossin_weights,
+  data = d,
+  strata = ~ country,
+  nest = TRUE
+)
+
+# Modelle rechnen
+
+f1 <- as.formula("gali ~ wave * migrant * age_between * gender + education + hhsize + age_within")
+m1 <- svyglm(f1, family = quasibinomial(), design = design)
+
+f5 <- as.formula("sphus_d ~ wave * migrant * age_between * gender + education + hhsize + age_within")
+m5 <- svyglm(f5, family = quasibinomial(), design = design)
+
+f6 <- as.formula("eurodcat ~ wave * migrant * age_between * gender + education + hhsize + age_within")
+m6 <- svyglm(f6, family = quasibinomial(), design = design)
+```
+
+#  Global Activity Limitation Index (GALI)
+
+0 = not limited; 1 = limited
+
+```{r eval=TRUE, echo=FALSE, warning=FALSE, message=FALSE}
+model_parameters(m1, exponentiate = TRUE) %>% print_md(select = "minimal")
+```
+
+
+\pagebreak
+
+
+#  Depression
+
+0 = No Depression; 1 = Depression
+
+```{r eval=TRUE, echo=FALSE, warning=FALSE, message=FALSE}
+model_parameters(m6, exponentiate = TRUE) %>% print_md(select = "minimal")
+```
+
+
+\pagebreak
+
+
+
+#  Self-perceived health
+
+0 = very good or excelent health; 1 = poorer health
+
+```{r eval=TRUE, echo=FALSE, warning=FALSE, message=FALSE}
+model_parameters(m5, exponentiate = TRUE) %>% print_md(select = "minimal")
+```
