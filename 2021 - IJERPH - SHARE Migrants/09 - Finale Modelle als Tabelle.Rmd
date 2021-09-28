@@ -52,7 +52,7 @@ m6 <- svyglm(f6, family = quasibinomial(), design = design)
 0 = not limited; 1 = limited
 
 ```{r eval=TRUE, echo=FALSE, warning=FALSE, message=FALSE}
-model_parameters(m1, exponentiate = TRUE) %>% print_md(select = "minimal")
+model_parameters(m1, exponentiate = TRUE, summary = TRUE) %>% print_md(select = "minimal")
 ```
 
 
@@ -64,7 +64,7 @@ model_parameters(m1, exponentiate = TRUE) %>% print_md(select = "minimal")
 0 = No Depression; 1 = Depression
 
 ```{r eval=TRUE, echo=FALSE, warning=FALSE, message=FALSE}
-model_parameters(m6, exponentiate = TRUE) %>% print_md(select = "minimal")
+model_parameters(m6, exponentiate = TRUE, summary = TRUE) %>% print_md(select = "minimal")
 ```
 
 
@@ -77,5 +77,5 @@ model_parameters(m6, exponentiate = TRUE) %>% print_md(select = "minimal")
 0 = very good or excelent health; 1 = poorer health
 
 ```{r eval=TRUE, echo=FALSE, warning=FALSE, message=FALSE}
-model_parameters(m5, exponentiate = TRUE) %>% print_md(select = "minimal")
+model_parameters(m5, exponentiate = TRUE, summary = TRUE) %>% print_md(select = "minimal")
 ```

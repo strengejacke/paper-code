@@ -76,8 +76,8 @@ abbildung <- function(model,
                   adjust = "none")
 
   p_for_trends <- model_parameters(emm) %>%
-    rec(Age, rec = c("-1=lower;1=higher"), suffix = "") |>
-    filter(p < 0.05) |>
+    rec(Age, rec = c("-1=younger;1=older"), suffix = "") |>
+    # filter(p < 0.05) |>
     select(-Coefficient, -SE, -CI_low, -CI_high, -z, - CI, - df_error) |>
     as.data.frame() |>
     sjmisc::rename_columns(migrant = "group", Age = "facet", gender = "panel") |>
@@ -85,6 +85,10 @@ abbildung <- function(model,
 
   predict_data <- merge(predict_data, p_for_trends, all = TRUE)
   predict_data$p <- insight::format_p(predict_data$p)
+
+  # invert dodging for red (upper) ribbons
+  predict_data$ydodge[predict_data$group == "migrant"] <- -1.8 * y_dodge
+  predict_data$ydodge[predict_data$group == "non-migrant"] <- y_dodge
 
   round_percent <- function(ylim) {
     sprintf("%g%%", round(100 * seq(ylim[1], ylim[2], .05)))
@@ -95,7 +99,7 @@ abbildung <- function(model,
                              ymax = conf.high, fill = group, colour = group)) +
     geom_ribbon(alpha = .2, colour = NA) +
     geom_line() +
-    geom_text(aes(label = p), nudge_y = y_dodge) +
+    geom_text(aes(label = p), nudge_y = plot_data$ydodge) +
     see::scale_color_flat() +
     see::scale_fill_flat() +
     see::theme_modern()
@@ -135,39 +139,39 @@ abbildung <- function(model,
 # Abbildung 1: GALI --------------------------
 
 pr1 <- ggemmeans(m1, c("wave [1:7 by=.5]", "migrant", "Age [-1,1]", "gender"))
-pr1$facet <- factor(pr1$facet, labels = c("lower", "higher"))
+pr1$facet <- factor(pr1$facet, labels = c("younger", "older"))
 pr1_range <- c(.35, .6)
 
 p1 <- abbildung(m1,
                 pr1,
-                "lower",
+                "younger",
                 "male",
-                title = "a) Lower aged male",
+                title = "a) Younger aged male",
                 jahr_labels = FALSE,
                 ylim = pr1_range)
 
 p2 <- abbildung(m1,
                 pr1,
-                "lower",
+                "younger",
                 "female",
                 prozent_label = FALSE,
                 jahr_labels = FALSE,
-                title = "c) Lower aged female",
+                title = "c) Younger aged female",
                 ylim = pr1_range)
 
 p3 <- abbildung(m1,
                 pr1,
-                "higher",
+                "older",
                 "male",
-                title = "b) Higher aged male",
+                title = "b) Older aged male",
                 ylim = pr1_range)
 
 p4 <- abbildung(m1,
                 pr1,
-                "higher",
+                "older",
                 "female",
                 prozent_label = FALSE,
-                title = "d) Higher aged female",
+                title = "d) Older aged female",
                 ylim = pr1_range,
                 legend = TRUE)
 
@@ -185,39 +189,39 @@ ggsave("gali.tiff", compress = "lzw", units = "cm", width = 13, height = 8,
 # Abbildung 2: Depression --------------------------
 
 pr2 <- ggemmeans(m6, c("wave [1:7 by=.5]", "migrant", "Age [-1,1]", "gender"))
-pr2$facet <- factor(pr2$facet, labels = c("lower", "higher"))
+pr2$facet <- factor(pr2$facet, labels = c("younger", "older"))
 pr2_range <- c(.15, .45)
 
 p1 <- abbildung(m6,
                 pr2,
-                "lower",
+                "younger",
                 "male",
-                title = "a) Lower aged male",
+                title = "a) Younger aged male",
                 jahr_labels = FALSE,
                 ylim = pr2_range)
 
 p2 <- abbildung(m6,
                 pr2,
-                "lower",
+                "younger",
                 "female",
                 prozent_label = FALSE,
                 jahr_labels = FALSE,
-                title = "c) Lower aged female",
+                title = "c) Younger aged female",
                 ylim = pr2_range)
 
 p3 <- abbildung(m6,
                 pr2,
-                "higher",
+                "older",
                 "male",
-                title = "b) Higher aged male",
+                title = "b) Older aged male",
                 ylim = pr2_range)
 
 p4 <- abbildung(m6,
                 pr2,
-                "higher",
+                "older",
                 "female",
                 prozent_label = FALSE,
-                title = "d) Higher aged female",
+                title = "d) Older aged female",
                 ylim = pr2_range,
                 legend = TRUE)
 
@@ -233,45 +237,45 @@ ggsave("depression.tiff", compress = "lzw", units = "cm", width = 13, height = 8
 # Abbildung 3: SPH --------------------------
 
 pr3 <- ggemmeans(m5, c("wave [1:7 by=.5]", "migrant", "Age [-1,1]", "gender"))
-pr3$facet <- factor(pr3$facet, labels = c("lower", "higher"))
+pr3$facet <- factor(pr3$facet, labels = c("younger", "older"))
 pr3_range <- c(.65, .9)
 
 p1 <- abbildung(m5,
                 pr3,
-                "lower",
+                "younger",
                 "male",
-                title = "a) Lower aged male",
+                title = "a) Younger aged male",
                 jahr_labels = FALSE,
                 ylim = pr3_range,
-                y_dodge = -0.03)
+                y_dodge = -0.035)
 
 p2 <- abbildung(m5,
                 pr3,
-                "lower",
+                "younger",
                 "female",
                 prozent_label = FALSE,
                 jahr_labels = FALSE,
-                title = "c) Lower aged female",
+                title = "c) Younger aged female",
                 ylim = pr3_range,
-                y_dodge = -0.03)
+                y_dodge = -0.035)
 
 p3 <- abbildung(m5,
                 pr3,
-                "higher",
+                "older",
                 "male",
-                title = "b) Higher aged male",
+                title = "b) Older aged male",
                 ylim = pr3_range,
-                y_dodge = -0.03)
+                y_dodge = -0.035)
 
 p4 <- abbildung(m5,
                 pr3,
-                "higher",
+                "older",
                 "female",
                 prozent_label = FALSE,
-                title = "d) Higher aged female",
+                title = "d) Older aged female",
                 ylim = pr3_range,
                 legend = TRUE,
-                y_dodge = -0.03)
+                y_dodge = -0.035)
 
 
 p1 + p2 + p3 + p4
