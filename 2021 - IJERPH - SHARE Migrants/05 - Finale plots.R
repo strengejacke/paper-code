@@ -146,7 +146,7 @@ p1 <- abbildung(m1,
                 pr1,
                 "younger",
                 "male",
-                title = "a) Younger aged male",
+                title = "a) Younger aged male (at 60 years)",
                 jahr_labels = FALSE,
                 ylim = pr1_range)
 
@@ -156,14 +156,14 @@ p2 <- abbildung(m1,
                 "female",
                 prozent_label = FALSE,
                 jahr_labels = FALSE,
-                title = "c) Younger aged female",
+                title = "c) Younger aged female (at 60 years)",
                 ylim = pr1_range)
 
 p3 <- abbildung(m1,
                 pr1,
                 "older",
                 "male",
-                title = "b) Older aged male",
+                title = "b) Older aged male (at 80 years)",
                 ylim = pr1_range)
 
 p4 <- abbildung(m1,
@@ -171,7 +171,7 @@ p4 <- abbildung(m1,
                 "older",
                 "female",
                 prozent_label = FALSE,
-                title = "d) Older aged female",
+                title = "d) Older aged female (at 80 years)",
                 ylim = pr1_range,
                 legend = TRUE)
 
@@ -196,7 +196,7 @@ p1 <- abbildung(m6,
                 pr2,
                 "younger",
                 "male",
-                title = "a) Younger aged male",
+                title = "a) Younger aged male (at 60 years)",
                 jahr_labels = FALSE,
                 ylim = pr2_range)
 
@@ -206,14 +206,14 @@ p2 <- abbildung(m6,
                 "female",
                 prozent_label = FALSE,
                 jahr_labels = FALSE,
-                title = "c) Younger aged female",
+                title = "c) Younger aged female (at 60 years)",
                 ylim = pr2_range)
 
 p3 <- abbildung(m6,
                 pr2,
                 "older",
                 "male",
-                title = "b) Older aged male",
+                title = "b) Older aged male (at 80 years)",
                 ylim = pr2_range)
 
 p4 <- abbildung(m6,
@@ -221,7 +221,7 @@ p4 <- abbildung(m6,
                 "older",
                 "female",
                 prozent_label = FALSE,
-                title = "d) Older aged female",
+                title = "d) Older aged female (at 80 years)",
                 ylim = pr2_range,
                 legend = TRUE)
 
@@ -244,7 +244,7 @@ p1 <- abbildung(m5,
                 pr3,
                 "younger",
                 "male",
-                title = "a) Younger aged male",
+                title = "a) Younger aged male (at 60 years)",
                 jahr_labels = FALSE,
                 ylim = pr3_range,
                 y_dodge = -0.035)
@@ -255,7 +255,7 @@ p2 <- abbildung(m5,
                 "female",
                 prozent_label = FALSE,
                 jahr_labels = FALSE,
-                title = "c) Younger aged female",
+                title = "c) Younger aged female (at 60 years)",
                 ylim = pr3_range,
                 y_dodge = -0.035)
 
@@ -263,7 +263,7 @@ p3 <- abbildung(m5,
                 pr3,
                 "older",
                 "male",
-                title = "b) Older aged male",
+                title = "b) Older aged male (at 80 years)",
                 ylim = pr3_range,
                 y_dodge = -0.035)
 
@@ -272,7 +272,7 @@ p4 <- abbildung(m5,
                 "older",
                 "female",
                 prozent_label = FALSE,
-                title = "d) Older aged female",
+                title = "d) Older aged female (at 80 years)",
                 ylim = pr3_range,
                 legend = TRUE,
                 y_dodge = -0.035)
