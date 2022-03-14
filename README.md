@@ -2,7 +2,12 @@
 
 This repository contains the data and R code that was used in analyses in my published papers and other research.
 
-* Vonneilich N, Bremer D, Knesebeck Ovd, Lüdecke D (in preparation) Health and morbidity patterns in migrant and non-migrant elderly populations in Europe – Analyses based on SHARE 2004-2020.
+* Lüdecke D, Knesebeck Ovd (2022) Decline in Mental Health in the Beginning of the COVID-19 Outbreak Among European Older Adults—Associations With Social Factors, Infection Rates, and Government Response. Front. Public Health 10:844560. [doi: 10.3389/fpubh.2022.844560](https://doi.org/10.3389/fpubh.2022.844560)
+
+Code: [2022 - FrontPH - Decline MH COVID19](/2022%20-%20FrontPH%20-%20Decline%20MH%20COVID19)
+
+* Vonneilich N, Bremer D, Knesebeck Ovd, Lüdecke D (2021) Health and morbidity patterns in migrant and non-migrant elderly populations in Europe – Analyses based on SHARE 2004-2020.
+Int. J. Environ. Res. Public Health 2021, 18(22), 12047 [doi: 10.3390/ijerph182212047](https://doi.org/10.3390/ijerph182212047)
 
 Code: [2021 - IJERPH - SHARE Migrants](/2021%20-%20IJERPH%20-%20SHARE%20Migrants)
 
