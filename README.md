@@ -38,3 +38,7 @@ Code: [2019 - Front Psych - Bayesian Indices](/2019%20-%20FrontPsych%20-%20Bayes
 * Lüdecke D, Bien B, McKee K, Krevers B, Mestheneos E, Di Rosa M, von dem Knesebeck O, Kofahl C (2018) Factors predicting outcomes of family care of older people over a one-year period. A six-country European study. PLOS ONE 13(4): e0195294. [doi: 10.1371/journal.pone.0195294](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0195294)
 
 Code: [2018 - PlosOne - For better or Worse](/2018%20-%20PlosOne%20-%20For%20better%20or%20Worse)
+
+* Knesebeck Ovd, Vonneilich N, Lüdecke D (2017) Income and functional limitations among the aged in Europe: a trend analysis in 16 countries. J Epidemiol Community Health: 1-8. [doi: 10.1136/jech-2016-208369](https://doi.org/10.1136/jech-2016-208369)
+
+Code: [2017 - JECH functional limitations](/2017%20-%20JECH%20functional%20limitations)
