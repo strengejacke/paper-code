@@ -7,6 +7,7 @@ library(glmmTMB)
 library(patchwork)
 
 load("regression_analyses_interactions.RData")
+load("./predictions_for_plots.RData")
 
 # Plot-Funktion --------------------------------
 
@@ -95,8 +96,9 @@ pv1 <- ggpredict(mi1, c("age_dicho", "wave"))
 pc1 <- mi1 |>
   comparisons(
     type = "response",
-    variables = "wave") |>
-  summary(by = "age_dicho") |>
+    variables = "wave",
+    by = "age_dicho") |>
+  summary() |>
   as.data.frame() |>
   data_select(c("age_dicho", "p.value")) |>
   standardize_names() |>
@@ -113,8 +115,9 @@ pv2 <- ggpredict(mi2, c("gender", "wave"))
 pc2 <- mi2 |>
   comparisons(
     type = "response",
-    variables = "wave") |>
-  summary(by = "gender") |>
+    variables = "wave",
+    by = "gender") |>
+  summary() |>
   as.data.frame() |>
   data_select(c("gender", "p.value")) |>
   standardize_names() |>
@@ -131,8 +134,9 @@ pv3 <- ggpredict(mi3, c("education2", "wave"))
 pc3 <- mi3 |>
   comparisons(
     type = "response",
-    variables = "wave") |>
-  summary(by = "education2") |>
+    variables = "wave",
+    by = "education2") |>
+  summary() |>
   as.data.frame() |>
   data_select(c("education2", "p.value")) |>
   standardize_names() |>
@@ -151,8 +155,9 @@ pv4 <- ggpredict(mi4, c("partnerinhh", "wave"))
 pc4 <- mi4 |>
   comparisons(
     type = "response",
-    variables = "wave") |>
-  summary(by = "partnerinhh") |>
+    variables = "wave",
+    by = "partnerinhh") |>
+  summary() |>
   as.data.frame() |>
   data_select(c("partnerinhh", "p.value")) |>
   standardize_names() |>
@@ -171,8 +176,9 @@ pv5 <- ggpredict(mi5, c("covid_affected", "wave"))
 pc5 <- mi5 |>
   comparisons(
     type = "response",
-    variables = "wave") |>
-  summary(by = "covid_affected") |>
+    variables = "wave",
+    by = "covid_affected") |>
+  summary() |>
   as.data.frame() |>
   data_select(c("covid_affected", "p.value")) |>
   standardize_names() |>
@@ -196,19 +202,27 @@ p5 <- abbildung(pv5, pc5, title = "COVID affected", legend = TRUE, log_ylim = -1
 
 
 
+# layout <- c(
+#   area(1, 1),
+#   area(1, 2),
+#   area(1, 3),
+#   area(2, 1),
+#   area(2, 2, 2, 3)
+# )
+
 layout <- c(
   area(1, 1),
   area(1, 2),
-  area(1, 3),
   area(2, 1),
-  area(2, 2, 2, 3)
+  area(2, 2),
+  area(3, 1, 3, 2)
 )
 
 plot(layout)
 
 p1 + p2 + p3 + p4 + p5 + plot_layout(design = layout)
 
-ggsave("figure.tiff", compress = "lzw", units = "cm", width = 17, height = 14,
+ggsave("figure.tiff", compress = "lzw", units = "cm", width = 12, height = 18,
        scale = 1.3, dpi = 600)
 
 

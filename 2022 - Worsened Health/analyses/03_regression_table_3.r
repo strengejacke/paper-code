@@ -3,6 +3,7 @@ library(glmmTMB)
 library(ggeffects)
 library(emmeans)
 library(ggplot2)
+library(survey)
 
 load("Daten/share.RData")
 load("Daten/share8.RData")
@@ -52,10 +53,28 @@ share$covid_percent3 <- factor(share$covid_percent_r, labels = c("lower tertile"
 
 
 
-# mixed models, interactions ---------------------
+# mixed models, w/o interaction ---------------------
 
-mi1 <- glmmTMB(
-  health_past3months ~ wave * age_dicho + gender + education2 + partnerinhh +
+model1 <- glmmTMB(
+  health_past3months ~ wave + age_dicho + gender + education2 + partnerinhh +
+    covid_affected + (1 + wave | countries),
+  family = binomial(),
+  data = share,
+  weights = pweights_a
+)
+
+
+model2 <- glmmTMB(
+  health_past3months ~ wave + stringency_index + covid_percent3 +
+    (1 + wave | countries),
+  family = binomial(),
+  data = share,
+  weights = pweights_a
+)
+
+
+model3 <- glmmTMB(
+  health_past3months ~ wave + age_dicho + gender + education2 + partnerinhh +
     covid_affected + stringency_index + covid_percent3 +
     (1 + wave | countries),
   family = binomial(),
@@ -63,59 +82,69 @@ mi1 <- glmmTMB(
   weights = pweights_a
 )
 
-mi2 <- glmmTMB(
-  health_past3months ~ wave * gender + age_dicho + education2 + partnerinhh +
+save(share, model1, model2, model3, file = "regression_analyses2.RData")
+
+
+
+
+
+# mixed models, w/o interaction, unweighted ---------------------
+
+model1 <- glmmTMB(
+  health_past3months ~ wave + age_dicho + gender + education2 + partnerinhh +
+    covid_affected + (1 + wave | mergeid) + (1 | countries),
+  family = binomial(),
+  data = share
+)
+
+
+model2 <- glmmTMB(
+  health_past3months ~ wave + stringency_index + covid_percent3 +
+    (1 + wave | mergeid),
+  family = binomial(),
+  data = share
+)
+
+
+model3 <- glmmTMB(
+  health_past3months ~ wave + age_dicho + gender + education2 + partnerinhh +
     covid_affected + stringency_index + covid_percent3 +
-    (1 + wave | countries),
+    (1 + wave | mergeid),
   family = binomial(),
-  data = share,
-  weights = pweights_a
+  data = share
 )
 
-mi3 <- glmmTMB(
-  health_past3months ~ wave * education2 + age_dicho + gender + partnerinhh +
-    covid_affected + stringency_index + covid_percent3 +
-    (1 + wave | countries),
-  family = binomial(),
-  data = share,
-  weights = pweights_a
+save(share, model1, model2, model3, file = "regression_analyses-unweighted.RData")
+
+
+
+
+
+# survey models, w/o interaction ---------------------
+
+des <- svydesign(
+  ids = ~mergeid,
+  strata = ~countries,
+  weights = ~crossin_weights,
+  data = share
 )
 
-mi4 <- glmmTMB(
-  health_past3months ~ wave * partnerinhh + age_dicho + gender + education2 +
-    covid_affected + stringency_index + covid_percent3 +
-    (1 + wave | countries),
-  family = binomial(),
-  data = share,
-  weights = pweights_a
+model1s <- svyglm(
+  health_past3months ~ wave + age_dicho + gender + education2 + partnerinhh +
+    covid_affected,
+  design = des,
+  family = quasibinomial()
 )
 
-mi5 <- glmmTMB(
-  health_past3months ~ wave * covid_affected + age_dicho + gender + education2 +
-    partnerinhh + stringency_index + covid_percent3 +
-    (1 + wave | countries),
-  family = binomial(),
-  data = share,
-  weights = pweights_a
+model2s <- svyglm(
+  health_past3months ~ stringency_index + covid_percent3,
+  design = des,
+  family = quasibinomial()
 )
 
-# not needed, not of interest for paper ---------------
-
-# mi6 <- glmmTMB(
-#   health_past3months ~ wave * stringency_index + age_dicho + gender + education2 +
-#     partnerinhh + covid_affected + covid_percent3 + (1 + wave | countries),
-#   family = binomial(),
-#   data = share,
-#   weights = pweights_a
-# )
-
-# mi7 <- glmmTMB(
-#   health_past3months ~ wave * covid_percent3 + age_dicho + gender + education2 +
-#     partnerinhh + covid_affected + stringency_index + (1 + wave | countries),
-#   family = binomial(),
-#   data = share,
-#   weights = pweights_a
-# )
-
-save(share, mi1, mi2, mi3, mi4, mi5, file = "regression_analyses_interactions.RData")
-# save(share, mi1, mi2, mi3, mi4, mi5, mi6, mi7, file = "regression_analyses_interactions.RData")
+model3s <- svyglm(
+  health_past3months ~ wave + age_dicho + gender + education2 + partnerinhh +
+    covid_affected + stringency_index + covid_percent3,
+  design = des,
+  family = quasibinomial()
+)

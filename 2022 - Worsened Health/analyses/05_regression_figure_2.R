@@ -3,6 +3,7 @@ library(glmmTMB)
 library(ggeffects)
 library(emmeans)
 library(ggplot2)
+library(survey)
 
 load("Daten/share.RData")
 load("Daten/share8.RData")
@@ -52,28 +53,10 @@ share$covid_percent3 <- factor(share$covid_percent_r, labels = c("lower tertile"
 
 
 
-# mixed models, w/o interaction ---------------------
+# mixed models, interactions ---------------------
 
-model1 <- glmmTMB(
-  health_past3months ~ wave + age_dicho + gender + education2 + partnerinhh +
-    covid_affected + (1 + wave | countries),
-  family = binomial(),
-  data = share,
-  weights = pweights_a
-)
-
-
-model2 <- glmmTMB(
-  health_past3months ~ wave + stringency_index + covid_percent3 +
-    (1 + wave | countries),
-  family = binomial(),
-  data = share,
-  weights = pweights_a
-)
-
-
-model3 <- glmmTMB(
-  health_past3months ~ wave + age_dicho + gender + education2 + partnerinhh +
+mi1 <- glmmTMB(
+  health_past3months ~ wave * age_dicho + gender + education2 + partnerinhh +
     covid_affected + stringency_index + covid_percent3 +
     (1 + wave | countries),
   family = binomial(),
@@ -81,4 +64,41 @@ model3 <- glmmTMB(
   weights = pweights_a
 )
 
-save(share, model1, model2, model3, file = "regression_analyses2.RData")
+mi2 <- glmmTMB(
+  health_past3months ~ wave * gender + age_dicho + education2 + partnerinhh +
+    covid_affected + stringency_index + covid_percent3 +
+    (1 + wave | countries),
+  family = binomial(),
+  data = share,
+  weights = pweights_a
+)
+
+mi3 <- glmmTMB(
+  health_past3months ~ wave * education2 + age_dicho + gender + partnerinhh +
+    covid_affected + stringency_index + covid_percent3 +
+    (1 + wave | countries),
+  family = binomial(),
+  data = share,
+  weights = pweights_a
+)
+
+mi4 <- glmmTMB(
+  health_past3months ~ wave * partnerinhh + age_dicho + gender + education2 +
+    covid_affected + stringency_index + covid_percent3 +
+    (1 + wave | countries),
+  family = binomial(),
+  data = share,
+  weights = pweights_a
+)
+
+mi5 <- glmmTMB(
+  health_past3months ~ wave * covid_affected + age_dicho + gender + education2 +
+    partnerinhh + stringency_index + covid_percent3 +
+    (1 + wave | countries),
+  family = binomial(),
+  data = share,
+  weights = pweights_a
+)
+
+save(share, mi1, mi2, mi3, mi4, mi5, file = "regression_analyses_interactions.RData")
+# save(share, mi1, mi2, mi3, mi4, mi5, mi6, mi7, file = "regression_analyses_interactions.RData")

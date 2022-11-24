@@ -46,7 +46,7 @@ share$camh148_ <- set_labels(share$camh148_, labels = get_labels(share$camh837_)
 # merge variables from Wave 9 and 8 -----------------------
 
 merge_vars <- function(x, vars) {
-  for (i in 1:length(vars)) {
+  for (i in seq_along(vars)) {
     labs1 <- attributes(x[[vars[[i]][1]]])$labels
     labs2 <- attributes(x[[vars[[i]][2]]])$labels
     labs1 <- paste0(labs1, ": ", names(labs1))
