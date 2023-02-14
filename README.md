@@ -1,6 +1,6 @@
-# R-Code for published papers
+# R-Code (and data) for published papers
 
-This repository contains the data and R code that was used in analyses in my published papers and other research.
+This repository contains the data and R code that was used in analyses in my published papers and other research. Some data sets are freely available but cannot be shared in this repository. Please refer to the related website to get data access (like [SHARE](https://share-eric.eu/) or [DEAS](https://www.dza.de/forschung/deas)).
 
 * Lüdecke D, Dichter M, Nickel S, Kofahl C (2023) Item distribution, scalability and internal consistency of the QUALIDEM quality of life assessment for patients with dementia in acute hospital settings. Health Qual Life Outcomes. 2023 Jan 31;21(1):12. [doi: 10.1186/s12955-023-02094-1](https://doi.org/10.1186/s12955-023-02094-1)
 
