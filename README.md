@@ -2,6 +2,10 @@
 
 This repository contains the data and R code that was used in analyses in my published papers and other research.
 
+* Lüdecke D, Dichter M, Nickel S, Kofahl C (2023) Item distribution, scalability and internal consistency of the QUALIDEM quality of life assessment for patients with dementia in acute hospital settings. Health Qual Life Outcomes. 2023 Jan 31;21(1):12. [doi: 10.1186/s12955-023-02094-1](https://doi.org/10.1186/s12955-023-02094-1)
+
+Code: [2022 - QUALIDEM](/2022%20-%20QUALIDEM)
+
 * Lüdecke D, Knesebeck Ovd (2022) Decline in Mental Health in the Beginning of the COVID-19 Outbreak Among European Older Adults—Associations With Social Factors, Infection Rates, and Government Response. Front. Public Health 10:844560. [doi: 10.3389/fpubh.2022.844560](https://doi.org/10.3389/fpubh.2022.844560)
 
 Code: [2022 - FrontPH - Decline MH COVID19](/2022%20-%20FrontPH%20-%20Decline%20MH%20COVID19)
