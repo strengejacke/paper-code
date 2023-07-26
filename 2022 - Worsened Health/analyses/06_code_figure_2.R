@@ -1,12 +1,10 @@
 library(easystats)
 library(ggplot2)
 library(ggeffects)
-library(emmeans)
-library(marginaleffects)
 library(glmmTMB)
 library(patchwork)
 
-load("regression_analyses_interactions.RData")
+load("./regression_analyses_interactions.RData")
 load("./predictions_for_plots.RData")
 
 # Plot-Funktion --------------------------------
@@ -34,9 +32,9 @@ abbildung <- function(predict_data,
   }
 
   if (log_ylim == -2) {
-    upper_lim <- .3
+    upper_lim <- 0.3
   } else {
-    upper_lim <- .5
+    upper_lim <- 0.5
   }
 
   y.breaks <- c(-5:log_ylim)
@@ -45,19 +43,19 @@ abbildung <- function(predict_data,
 
   plot_data <- predict_data
 
-  cp <- predict_data |>
-    dplyr::group_by(x) |>
-    dplyr::slice(which.max(conf.high)) |>
-    data_merge(comparison_data) |>
-    dplyr::mutate(y = conf.high * 1.05)
+  # cp <- predict_data |>
+  #   dplyr::group_by(x) |>
+  #   dplyr::slice(which.max(conf.high)) |>
+  #   data_merge(comparison_data) |>
+  #   dplyr::mutate(y = conf.high * 1.05)
 
   p <- ggplot(plot_data, aes(x = x, y = predicted, ymin = conf.low,
                              ymax = conf.high, colour = group)) +
-    geom_errorbar(position = position_dodge(.3), width = 0, size = .8) +
-    geom_point(position = position_dodge(.3), size = 3.3) +
+    geom_errorbar(position = position_dodge(0.3), width = 0, linewidth = 0.8) +
+    geom_point(position = position_dodge(0.3), size = 3.3) +
     # geom_text(data = cp, mapping = aes(x = x, y = y, label = cp$p),
     #           color = "black",
-    #           position = position_dodge(.12), parse = TRUE) +
+    #           position = position_dodge(0.12), parse = TRUE) +
     see::scale_color_flat() +
     see::scale_fill_flat() +
     see::theme_modern(plot.title.size = 14, plot.title.space = 2) +
@@ -75,7 +73,8 @@ abbildung <- function(predict_data,
   }
 
   if (prozent_label) {
-    p <- p + scale_y_log10(labels = round_percent(y.breaks), breaks = y.breaks, limits = y.limits)
+    p <- p + scale_y_log10(labels = round_percent(y.breaks),
+                           breaks = y.breaks, limits = y.limits)
   } else {
     p <- p + scale_y_log10(labels = NULL, limits = y.limits)
   }
@@ -93,16 +92,13 @@ abbildung <- function(predict_data,
 # Abbildung 1: Age --------------------------
 
 pv1 <- ggpredict(mi1, c("age_dicho", "wave"))
-pc1 <- mi1 |>
-  comparisons(
-    type = "response",
-    variables = "wave",
-    by = "age_dicho") |>
-  summary() |>
+pc1 <- hypothesis_test(pv1, collapse_levels = TRUE) |>
   as.data.frame() |>
   data_select(c("age_dicho", "p.value")) |>
   standardize_names() |>
-  data_rename(pattern = "age_dicho", replacement = "x")
+  data_rename(pattern = "age_dicho", replacement = "x") |>
+  data_filter(x %in% c("50-69", "70+")) |>
+  to_factor("x")
 
 pc1 <- pc1[order(pc1$x, levels(pc1$x)), ]
 
@@ -112,16 +108,13 @@ pc1 <- pc1[order(pc1$x, levels(pc1$x)), ]
 # Abbildung 2: Gender --------------------------
 
 pv2 <- ggpredict(mi2, c("gender", "wave"))
-pc2 <- mi2 |>
-  comparisons(
-    type = "response",
-    variables = "wave",
-    by = "gender") |>
-  summary() |>
+pc2 <- hypothesis_test(pv2, collapse_levels = TRUE) |>
   as.data.frame() |>
   data_select(c("gender", "p.value")) |>
   standardize_names() |>
-  data_rename(pattern = "gender", replacement = "x")
+  data_rename(pattern = "gender", replacement = "x") |>
+  data_filter(x %in% c("Female", "Male")) |>
+  to_factor("x")
 
 pc2 <- pc2[order(pc2$x, levels(pc2$x)), ]
 
@@ -131,16 +124,13 @@ pc2 <- pc2[order(pc2$x, levels(pc2$x)), ]
 # Abbildung 3: Education --------------------------
 
 pv3 <- ggpredict(mi3, c("education2", "wave"))
-pc3 <- mi3 |>
-  comparisons(
-    type = "response",
-    variables = "wave",
-    by = "education2") |>
-  summary() |>
+pc3 <- hypothesis_test(pv3, collapse_levels = TRUE) |>
   as.data.frame() |>
   data_select(c("education2", "p.value")) |>
   standardize_names() |>
-  data_rename(pattern = "education2", replacement = "x")
+  data_rename(pattern = "education2", replacement = "x") |>
+  data_filter(x %in% c("low", "mid", "high")) |>
+  to_factor("x")
 
 pc3 <- pc3[order(pc3$x, levels(pc3$x)), ]
 
@@ -152,16 +142,13 @@ pc3 <- pc3[order(pc3$x, levels(pc3$x)), ]
 # Abbildung 4: Partner in HH --------------------------
 
 pv4 <- ggpredict(mi4, c("partnerinhh", "wave"))
-pc4 <- mi4 |>
-  comparisons(
-    type = "response",
-    variables = "wave",
-    by = "partnerinhh") |>
-  summary() |>
+pc4 <- hypothesis_test(pv4, collapse_levels = TRUE) |>
   as.data.frame() |>
   data_select(c("partnerinhh", "p.value")) |>
   standardize_names() |>
-  data_rename(pattern = "partnerinhh", replacement = "x")
+  data_rename(pattern = "partnerinhh", replacement = "x") |>
+  data_filter(x %in% c("No", "Yes")) |>
+  to_factor("x")
 
 pc4 <- pc4[order(pc4$x, levels(pc4$x)), ]
 
@@ -172,17 +159,16 @@ pc4 <- pc4[order(pc4$x, levels(pc4$x)), ]
 # Abbildung 5: Covid affected  --------------------------
 
 pv5 <- ggpredict(mi5, c("covid_affected", "wave"))
-
-pc5 <- mi5 |>
-  comparisons(
-    type = "response",
-    variables = "wave",
-    by = "covid_affected") |>
-  summary() |>
+pc5 <- hypothesis_test(pv5, collapse_levels = TRUE) |>
   as.data.frame() |>
   data_select(c("covid_affected", "p.value")) |>
   standardize_names() |>
-  data_rename(pattern = "covid_affected", replacement = "x")
+  data_rename(pattern = "covid_affected", replacement = "x") |>
+  data_filter(x %in% c("never",
+                       "tested positive, no symptoms",
+                       "symptoms",
+                       "hospitalized")) |>
+  to_factor("x")
 
 # fix long labes
 levels(pv5$x) <- c("never", "positive, no symptoms", "symptoms", "hospitalized")
@@ -195,7 +181,7 @@ pc5 <- pc5[order(pc5$x, levels(pc5$x)), ]
 
 
 p1 <- abbildung(pv1, pc1, title = "Age")
-p2 <- abbildung(pv2, pc2, title = "Gender")
+p2 <- abbildung(pv2, pc2, title = "Sex")
 p3 <- abbildung(pv3, pc3, title = "Education")
 p4 <- abbildung(pv4, pc4, title = "Partner in household")
 p5 <- abbildung(pv5, pc5, title = "COVID affected", legend = TRUE, log_ylim = -1)

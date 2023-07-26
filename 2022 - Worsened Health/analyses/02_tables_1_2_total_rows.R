@@ -5,8 +5,8 @@ share <- data_to_factor(share, select = c("health_past3months", "wave", "gender"
 share$stringency_index <- share$global_covid_regime_si3
 
 share <- share |>
-  dplyr::group_by(wave) |>
-  data_cut(select = "covid_percent", split = "quantile", n_groups = 3, append = TRUE)
+  data_group("wave") |>
+  categorize(select = "covid_percent", split = "quantile", n_groups = 3, append = TRUE)
 
 share$covid_percent3 <- factor(share$covid_percent_r, labels = c("lower tertile", "middle tertile", "upper tertile"))
 

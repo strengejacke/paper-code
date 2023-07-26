@@ -1,9 +1,5 @@
 library(easystats)
 library(glmmTMB)
-library(ggeffects)
-library(emmeans)
-library(ggplot2)
-library(survey)
 
 load("Daten/share.RData")
 load("Daten/share8.RData")
@@ -30,7 +26,7 @@ share <- data_filter(share, !is.na(crossin_weights))
 
 ## create categorical variables -------------------
 
-share <- datawizard::to_factor(
+share <- to_factor(
   share,
   select = c("wave", "gender", "covid_affected", "partnerinhh", "covid_regime_si3", "covid_regime_ch3")
 )
@@ -46,7 +42,7 @@ share <- rescale_weights(share, group = "countries", probability_weights = "cros
 
 share$age_dicho <- factor(categorize(share$age), labels = c("50-69", "70+"))
 share <- share |>
-  dplyr::group_by(wave) |>
+  data_group("wave") |>
   categorize(select = "covid_percent", split = "quantile", n_groups = 3, append = TRUE)
 
 share$covid_percent3 <- factor(share$covid_percent_r, labels = c("lower tertile", "middle tertile", "upper tertile"))

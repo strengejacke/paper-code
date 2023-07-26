@@ -25,7 +25,7 @@ share <- data_filter(share, !is.na(crossin_weights))
 
 ## create categorical variables -------------------
 
-share <- datawizard::to_factor(
+share <- to_factor(
   share,
   select = c("health_past3months", "wave", "gender", "covid_affected",
   "partnerinhh", "covid_regime_si3", "covid_regime_ch3")
@@ -42,7 +42,7 @@ share <- rescale_weights(share, group = "countries", probability_weights = "cros
 
 share$age_dicho <- factor(categorize(share$age), labels = c("50-69", "70+"))
 share <- share |>
-  dplyr::group_by(wave) |>
+  data_group("wave") |>
   categorize(select = "covid_percent", split = "quantile", n_groups = 3, append = TRUE)
 
 share$covid_percent3 <- factor(share$covid_percent_r, labels = c("lower tertile", "middle tertile", "upper tertile"))
@@ -91,7 +91,7 @@ share_low_si |>
                 "covid_affected [symptoms], %", "covid_affected [hospitalized], %",
                 "health_past3months [worsened], %"),
     replacement = c("Never", "Tested positiv (no symptomps)", "Symptoms",
-                  "Hospitalized", "Worsened health, %")
+                    "Hospitalized", "Worsened health, %")
   ) |>
   export_table(format = "html")
 
@@ -134,7 +134,7 @@ share_middle_si |>
                 "covid_affected [symptoms], %", "covid_affected [hospitalized], %",
                 "health_past3months [worsened], %"),
     replacement = c("Never", "Tested positiv (no symptomps)", "Symptoms",
-                  "Hospitalized", "Worsened health, %")
+                    "Hospitalized", "Worsened health, %")
   ) |>
   export_table(format = "html")
 
@@ -153,7 +153,7 @@ share_middle_si |>
                 "covid_affected [symptoms], %", "covid_affected [hospitalized], %",
                 "health_past3months [worsened], %"),
     replacement = c("Never", "Tested positiv (no symptomps)", "Symptoms",
-                  "Hospitalized", "Worsened health, %")
+                    "Hospitalized", "Worsened health, %")
   ) |>
   export_table(format = "html")
 
@@ -196,7 +196,7 @@ share_high_si |>
                 "covid_affected [symptoms], %", "covid_affected [hospitalized], %",
                 "health_past3months [worsened], %"),
     replacement = c("Never", "Tested positiv (no symptomps)", "Symptoms",
-                  "Hospitalized", "Worsened health, %")
+                    "Hospitalized", "Worsened health, %")
   ) |>
   export_table(format = "html")
 
@@ -215,7 +215,7 @@ share_high_si |>
                 "covid_affected [symptoms], %", "covid_affected [hospitalized], %",
                 "health_past3months [worsened], %"),
     replacement = c("Never", "Tested positiv (no symptomps)", "Symptoms",
-                  "Hospitalized", "Worsened health, %")
+                    "Hospitalized", "Worsened health, %")
   ) |>
   export_table(format = "html")
 
@@ -272,6 +272,6 @@ share_all |>
                 "covid_affected [symptoms], %", "covid_affected [hospitalized], %",
                 "health_past3months [worsened], %"),
     replacement = c("Never", "Tested positiv (no symptomps)", "Symptoms",
-                  "Hospitalized", "Worsened health, %")
+                    "Hospitalized", "Worsened health, %")
   ) |>
   export_table(format = "html")

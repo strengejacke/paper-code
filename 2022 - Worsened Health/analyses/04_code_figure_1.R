@@ -1,7 +1,6 @@
 library(easystats)
 library(ggplot2)
 library(patchwork)
-library(dplyr)
 library(forcats)
 
 load("Daten/share.RData")
@@ -29,20 +28,20 @@ share <- data_filter(share, !is.na(crossin_weights))
 
 ## create categorical variables -------------------
 
-share <- datawizard::to_factor(
+share <- to_factor(
   share,
   select = c("health_past3months", "wave", "gender", "covid_affected",
-  "partnerinhh", "covid_regime_si3", "covid_regime_ch3")
+             "partnerinhh", "covid_regime_si3", "covid_regime_ch3")
 )
 share$stringency_index <- share$global_covid_regime_si3
 
 d <- share |>
-  select(mean_str_index, land, wave) |>
-  distinct()
+  data_select(c("mean_str_index", "land", "wave")) |>
+  dplyr::distinct()
 
 d2 <- share |>
-  select(stringency_index, land) |>
-  distinct()
+  data_select(c("stringency_index", "land")) |>
+  dplyr::distinct()
 
 d$wave <- as.factor(d$wave)
 d <- data_join(d, d2, by = "land")
@@ -104,7 +103,10 @@ p3 <- ggplot(x3, aes(x = mean_str_index, y = fct_rev(land), colour = wave)) +
   theme(legend.position = "bottom")
 
 
-p1 + p2 + p3
+p1 + p2 + p3 + 
+  plot_annotation(
+    title = "Change in average Stringency Index (SI) across countries between SHARE wave 8 and 9"
+  )
 
 ggsave("change_si.tiff", compress = "lzw", units = "cm", width = 12, height = 7,
        scale = 1.7, dpi = 600)

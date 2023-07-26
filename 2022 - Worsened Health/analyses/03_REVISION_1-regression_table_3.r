@@ -23,12 +23,17 @@ share$crossin_weights <- NULL
 share <- data_merge(share, out, by = c("mergeid", "wave"), join = "left")
 share <- data_filter(share, !is.na(crossin_weights))
 
+share$living_alone <- ifelse(share$hhsize > 1, 0, 1)
+share$living_alone <- factor(share$living_alone, labels = c("no", "yes"))
 
 ## create categorical variables -------------------
 
 share <- to_factor(
   share,
-  select = c("wave", "gender", "covid_affected", "partnerinhh", "covid_regime_si3", "covid_regime_ch3")
+  select = c(
+    "wave", "gender", "covid_affected", "partnerinhh",
+    "covid_regime_si3", "covid_regime_ch3", "living_alone"
+  )
 )
 share$stringency_index <- share$global_covid_regime_si3
 
@@ -51,7 +56,15 @@ share$covid_percent3 <- factor(share$covid_percent_r, labels = c("lower tertile"
 
 # mixed models, w/o interaction ---------------------
 
-model1 <- glmmTMB(
+model1_new <- glmmTMB(
+  health_past3months ~ wave + age_dicho + gender + education2 + living_alone +
+    covid_affected + (1 + wave | countries),
+  family = binomial(),
+  data = share,
+  weights = pweights_a
+)
+
+model1_old <- glmmTMB(
   health_past3months ~ wave + age_dicho + gender + education2 + partnerinhh +
     covid_affected + (1 + wave | countries),
   family = binomial(),
@@ -59,55 +72,4 @@ model1 <- glmmTMB(
   weights = pweights_a
 )
 
-
-model2 <- glmmTMB(
-  health_past3months ~ wave + stringency_index + covid_percent3 +
-    (1 + wave | countries),
-  family = binomial(),
-  data = share,
-  weights = pweights_a
-)
-
-
-model3 <- glmmTMB(
-  health_past3months ~ wave + age_dicho + gender + education2 + partnerinhh +
-    covid_affected + stringency_index + covid_percent3 +
-    (1 + wave | countries),
-  family = binomial(),
-  data = share,
-  weights = pweights_a
-)
-
-save(share, model1, model2, model3, file = "regression_analyses.RData")
-
-
-
-
-
-# mixed models, w/o interaction, unweighted ---------------------
-
-model1 <- glmmTMB(
-  health_past3months ~ wave + age_dicho + gender + education2 + partnerinhh +
-    covid_affected + (1 + wave | mergeid) + (1 | countries),
-  family = binomial(),
-  data = share
-)
-
-
-model2 <- glmmTMB(
-  health_past3months ~ wave + stringency_index + covid_percent3 +
-    (1 + wave | mergeid),
-  family = binomial(),
-  data = share
-)
-
-
-model3 <- glmmTMB(
-  health_past3months ~ wave + age_dicho + gender + education2 + partnerinhh +
-    covid_affected + stringency_index + covid_percent3 +
-    (1 + wave | mergeid),
-  family = binomial(),
-  data = share
-)
-
-save(share, model1, model2, model3, file = "regression_analyses-unweighted.RData")
+compare_parameters(model1_new, model1_old, exponentiate = TRUE)
