@@ -4,6 +4,10 @@ This repository contains the data and R code that was used in analyses in my pub
 
 All data and code is also published on [OSF](https://osf.io/j4wsu/).
 
+* Knesebeck Ovd, Lüdecke D, Klein J (submitted) Social variations in perceived access and quality of consultation in outpatient care - results of a population survey from Germany.
+
+Code: [2024 - Inequalities Outpatient Care](/2024%20-%20Inequalities%20Outpatient%20Care)
+
 * Lüdecke D, Dichter M, Nickel S, Kofahl C (2023) Item distribution, scalability and internal consistency of the QUALIDEM quality of life assessment for patients with dementia in acute hospital settings. Health Qual Life Outcomes. 2023 Jan 31;21(1):12. [doi: 10.1186/s12955-023-02094-1](https://doi.org/10.1186/s12955-023-02094-1)
 
 Code: [2022 - QUALIDEM](/2022%20-%20QUALIDEM)

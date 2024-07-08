@@ -1,0 +1,580 @@
+---
+title: ""
+format:
+  html:
+    self-contained: true
+---
+
+```{r}
+#| label: load-packages-and-data
+#| include: false
+
+library(easystats)
+load("../Daten/forsa.RData")
+# load("Daten/forsa.RData")
+
+new_names <- c(
+  gp_traveltime = "Travel time GP",
+  gp_waitingtime = "Waiting time GP",
+  gp_consultationtime = "Consultation time GP",
+  gp_score_comm_r = "Communication Score GP",
+  gp_enough_time = "Enough time GP",
+  spec_usage = "Secialist Usage past 12 months",
+  spec_traveltime = "Travel time Specialist",
+  spec_waitingtime = "Waiting time Soecialist",
+  spec_consultationtime = "Consultation time Specialist",
+  spec_score_comm_r = "Communication Score Specialist",
+  spec_enough_time = "Enough time Specialist"
+)
+
+levels(forsa_small$age3) <- c("18-40", "41-59", "60 und älter")
+levels(forsa_small$migbackground) <- c("No Migrants", "1. Gen", "2. Gen")
+
+forsa_gp <- forsa_small
+forsa_spec <- data_filter(forsa_small, spec_usage == "ja")
+
+forsa_spec$spec_top4 <- forsa_spec$spec_type
+forsa_spec$spec_top4[!forsa_spec$spec_top4 %in% c("Augenarzt", "Frauenarzt", "Internisten", "Orthopäden")] <- NA
+forsa_spec$spec_top4 <- droplevels(forsa_spec$spec_top4)
+
+items_gp <- c("gp_traveltime", "gp_waitingtime", "gp_consultationtime", "gp_score_comm_r")
+items_spec <- c("spec_traveltime", "spec_waitingtime", "spec_consultationtime", "spec_score_comm_r")
+
+# ausreißer bereinigen
+for (i in items_gp[1:3]) {
+  upper <- mean(forsa_gp[[i]], na.rm = TRUE) + 6 * sd(forsa_gp[[i]], na.rm = TRUE)
+  forsa_gp[[i]][forsa_gp[[i]] > upper] <- NA
+}
+
+# # ausreißer bereinigen
+for (i in items_spec[1:3]) {
+  upper <- mean(forsa_spec[[i]], na.rm = TRUE) + 6 * sd(forsa_spec[[i]], na.rm = TRUE)
+  forsa_spec[[i]][forsa_spec[[i]] > upper] <- NA
+}
+
+
+# dataset = forsa_gp oder forsa_spec
+# itemset = items_gp oder items_spec
+# x = "out", Tabelle aus report_sample()
+# v = Gruppierungs-/Stratifizierungsvariable
+modify_table <- function(dataset, itemset, variable) {
+  x <- report_sample(
+    dataset,
+    ci = 0.95,
+    centrality = "mean",
+    digits = 1,
+    select = itemset,
+    group_by = variable,
+    weights = "weights"
+  )
+
+  n_groups <- insight::n_unique(dataset[[variable]])
+  for (i in names(new_names)) {
+    x$Variable <- gsub(i, new_names[i], x$Variable, fixed = TRUE)
+  }
+  x$Variable <- gsub("Mean ", "", x$Variable, fixed = TRUE)
+
+  x$p <- vapply(
+    itemset, function(i) {
+      if (n_groups > 2) {
+        p_test <- sjstats::kruskal_wallis_test(dataset, select = i, by = variable, weights = "weights")
+      } else {
+        p_test <- sjstats::mann_whitney_test(dataset, select = i, by = variable, weights = "weights")
+      }
+      insight::format_p(p_test$p, name = NULL)
+    },
+    character(1)
+  )
+  x
+}
+```
+
+# Inequalities Hausarzt, nach Geschlecht
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+out <- modify_table(forsa_gp, items_gp, "sex")
+print_md(out)
+```
+
+# Inequalities Facharzt, nach Geschlecht
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+out <- modify_table(forsa_spec, items_spec, "sex")
+print_md(out)
+```
+
+
+{{< pagebreak >}}
+
+
+# Inequalities Hausarzt, nach Altersgruppen
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+out <- modify_table(forsa_gp, items_gp, "age3")
+print_md(out)
+```
+
+# Inequalities Facharzt, nach Altersgruppen
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+out <- modify_table(forsa_spec, items_spec, "age3")
+print_md(out)
+```
+
+
+{{< pagebreak >}}
+
+
+# Inequalities Hausarzt, nach Migrationshintergrund
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+out <- modify_table(forsa_gp, items_gp, "migbackground")
+print_md(out)
+```
+
+# Inequalities Facharzt, nach Migrationshintergrund
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+out <- modify_table(forsa_spec, items_spec, "migbackground")
+print_md(out)
+```
+
+
+{{< pagebreak >}}
+
+
+# Inequalities Hausarzt, nach Versicherungsstatus
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+out <- modify_table(forsa_gp, items_gp, "insurance")
+print_md(out)
+```
+
+# Inequalities Facharzt, nach Versicherungsstatus
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+out <- modify_table(forsa_spec, items_spec, "insurance")
+print_md(out)
+```
+
+
+{{< pagebreak >}}
+
+
+# Inequalities Hausarzt, nach Bildung (CASMIN 4-stufig)
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+out <- modify_table(forsa_gp, items_gp, "casmin4")
+print_md(out)
+```
+
+# Inequalities Facharzt, nach Bildung (CASMIN 4-stufig)
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+out <- modify_table(forsa_spec, items_spec, "casmin4")
+print_md(out)
+```
+
+
+{{< pagebreak >}}
+
+
+# Inequalities Hausarzt, nach Einkommen
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+out <- modify_table(forsa_gp, items_gp, "income4")
+print_md(out)
+```
+
+# Inequalities Facharzt, nach Einkommen
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+out <- modify_table(forsa_spec, items_spec, "income4")
+print_md(out)
+```
+
+
+{{< pagebreak >}}
+
+
+# Inequalities Facharzt, nach Facharztrichtungen
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+out <- modify_table(forsa_spec, items_spec, "spec_top4")
+print_md(out)
+```
+
+
+{{< pagebreak >}}
+
+
+# Inequalities Facharzt, nach Geschlecht und Facharztrichtung
+
+## Augenarzt
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+x <- data_filter(forsa_spec, spec_top4 == "Augenarzt")
+out <- modify_table(x, items_spec, "sex")
+print_md(out)
+```
+
+
+## Frauenarzt
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+x <- data_filter(forsa_spec, spec_top4 == "Frauenarzt")
+out <- modify_table(x, items_spec, "sex")
+print_md(out)
+```
+
+
+{{< pagebreak >}}
+
+
+## Internisten
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+x <- data_filter(forsa_spec, spec_top4 == "Internisten")
+out <- modify_table(x, items_spec, "sex")
+print_md(out)
+```
+
+
+## Orthopäden
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+x <- data_filter(forsa_spec, spec_top4 == "Orthopäden")
+out <- modify_table(x, items_spec, "sex")
+print_md(out)
+```
+
+
+{{< pagebreak >}}
+
+
+# Inequalities Facharzt, nach Altersgruppen und Facharztrichtung
+
+## Augenarzt
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+x <- data_filter(forsa_spec, spec_top4 == "Augenarzt")
+out <- modify_table(x, items_spec, "age3")
+print_md(out)
+```
+
+
+## Frauenarzt
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+x <- data_filter(forsa_spec, spec_top4 == "Frauenarzt")
+out <- modify_table(x, items_spec, "age3")
+print_md(out)
+```
+
+
+{{< pagebreak >}}
+
+
+## Internisten
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+x <- data_filter(forsa_spec, spec_top4 == "Internisten")
+out <- modify_table(x, items_spec, "age3")
+print_md(out)
+```
+
+
+## Orthopäden
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+x <- data_filter(forsa_spec, spec_top4 == "Orthopäden")
+out <- modify_table(x, items_spec, "age3")
+print_md(out)
+```
+
+
+{{< pagebreak >}}
+
+
+# Inequalities Facharzt, nach Migrationshintergrund und Facharztrichtung
+
+## Augenarzt
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+x <- data_filter(forsa_spec, spec_top4 == "Augenarzt")
+out <- modify_table(x, items_spec, "migbackground")
+print_md(out)
+```
+
+
+## Frauenarzt
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+x <- data_filter(forsa_spec, spec_top4 == "Frauenarzt")
+out <- modify_table(x, items_spec, "migbackground")
+print_md(out)
+```
+
+
+{{< pagebreak >}}
+
+
+## Internisten
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+x <- data_filter(forsa_spec, spec_top4 == "Internisten")
+out <- modify_table(x, items_spec, "migbackground")
+print_md(out)
+```
+
+
+## Orthopäden
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+x <- data_filter(forsa_spec, spec_top4 == "Orthopäden")
+out <- modify_table(x, items_spec, "migbackground")
+print_md(out)
+```
+
+
+{{< pagebreak >}}
+
+
+# Inequalities Facharzt, nach Versicherungsstatus und Facharztrichtung
+
+## Augenarzt
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+x <- data_filter(forsa_spec, spec_top4 == "Augenarzt")
+out <- modify_table(x, items_spec, "insurance")
+print_md(out)
+```
+
+
+## Frauenarzt
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+x <- data_filter(forsa_spec, spec_top4 == "Frauenarzt")
+out <- modify_table(x, items_spec, "insurance")
+print_md(out)
+```
+
+
+{{< pagebreak >}}
+
+
+## Internisten
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+x <- data_filter(forsa_spec, spec_top4 == "Internisten")
+out <- modify_table(x, items_spec, "insurance")
+print_md(out)
+```
+
+
+## Orthopäden
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+x <- data_filter(forsa_spec, spec_top4 == "Orthopäden")
+out <- modify_table(x, items_spec, "insurance")
+print_md(out)
+```
+
+
+{{< pagebreak >}}
+
+
+# Inequalities Facharzt, nach Bildung und Facharztrichtung
+
+## Augenarzt
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+x <- data_filter(forsa_spec, spec_top4 == "Augenarzt")
+out <- modify_table(x, items_spec, "casmin4")
+print_md(out)
+```
+
+
+## Frauenarzt
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+x <- data_filter(forsa_spec, spec_top4 == "Frauenarzt")
+out <- modify_table(x, items_spec, "casmin4")
+print_md(out)
+```
+
+
+{{< pagebreak >}}
+
+
+## Internisten
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+x <- data_filter(forsa_spec, spec_top4 == "Internisten")
+out <- modify_table(x, items_spec, "casmin4")
+print_md(out)
+```
+
+
+## Orthopäden
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+x <- data_filter(forsa_spec, spec_top4 == "Orthopäden")
+out <- modify_table(x, items_spec, "casmin4")
+print_md(out)
+```
+
+
+{{< pagebreak >}}
+
+
+# Inequalities Facharzt, nach Einkommen und Facharztrichtung
+
+## Augenarzt
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+x <- data_filter(forsa_spec, spec_top4 == "Augenarzt")
+out <- modify_table(x, items_spec, "income4")
+print_md(out)
+```
+
+
+## Frauenarzt
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+x <- data_filter(forsa_spec, spec_top4 == "Frauenarzt")
+out <- modify_table(x, items_spec, "income4")
+print_md(out)
+```
+
+
+{{< pagebreak >}}
+
+
+## Internisten
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+x <- data_filter(forsa_spec, spec_top4 == "Internisten")
+out <- modify_table(x, items_spec, "income4")
+print_md(out)
+```
+
+
+## Orthopäden
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+x <- data_filter(forsa_spec, spec_top4 == "Orthopäden")
+out <- modify_table(x, items_spec, "income4")
+print_md(out)
+```

@@ -1,0 +1,155 @@
+---
+title: ""
+format: docx
+---
+
+```{r}
+#| label: load-packages-and-data
+#| include: false
+
+library(easystats)
+library(glmmTMB)
+library(ggplot2)
+load("../Daten/forsa.RData")
+# load("Daten/forsa.RData")
+
+new_names <- c(
+  gp_traveltime = "Travel time GP",
+  gp_waitingtime = "Waiting time GP",
+  gp_consultationtime = "Consultation time GP",
+  gp_score_comm_r = "Communication Score GP",
+  gp_enough_time = "Enough time GP",
+  spec_usage = "Secialist Usage past 12 months",
+  spec_traveltime = "Travel time Specialist",
+  spec_waitingtime = "Waiting time Soecialist",
+  spec_consultationtime = "Consultation time Specialist",
+  spec_score_comm_r = "Communication Score Specialist",
+  spec_enough_time = "Enough time Specialist"
+)
+
+levels(forsa_small$age3) <- c("18-40", "41-59", "60 und älter")
+levels(forsa_small$migbackground) <- c("No Migrants", "1. Gen", "2. Gen")
+
+forsa_small$insurance <- relevel(forsa_small$insurance, ref = "privat")
+
+forsa_gp <- forsa_small
+forsa_spec <- data_filter(forsa_small, spec_usage == "ja")
+
+forsa_spec$spec_top4 <- forsa_spec$spec_type
+forsa_spec$spec_top4[!forsa_spec$spec_top4 %in% c("Augenarzt", "Frauenarzt", "Internisten", "Orthopäden")] <- NA
+forsa_spec$spec_top4 <- droplevels(forsa_spec$spec_top4)
+
+items_gp <- c("gp_traveltime", "gp_waitingtime", "gp_consultationtime", "gp_score_comm_r")
+items_spec <- c("spec_traveltime", "spec_waitingtime", "spec_consultationtime", "spec_score_comm_r")
+
+# ausreißer bereinigen
+for (i in items_gp[1:3]) {
+  upper <- mean(forsa_gp[[i]], na.rm = TRUE) + 6 * sd(forsa_gp[[i]], na.rm = TRUE)
+  forsa_gp[[i]][forsa_gp[[i]] > upper] <- NA
+}
+
+# ausreißer bereinigen
+for (i in items_spec[1:3]) {
+  upper <- mean(forsa_spec[[i]], na.rm = TRUE) + 6 * sd(forsa_spec[[i]], na.rm = TRUE)
+  forsa_spec[[i]][forsa_spec[[i]] > upper] <- NA
+}
+
+# für Logarithmierung, muss > 1 sein
+forsa_gp$gp_waitingtime_2p <- forsa_gp$gp_waitingtime + 1.01
+forsa_spec$spec_waitingtime_2p <- forsa_spec$spec_waitingtime + 1.01
+
+for (i in items_gp) {
+  forsa_gp[[paste0(i, "_r01")]] <- rescale(forsa_gp[[i]], to = c(0, 1))
+}
+for (i in items_spec) {
+  forsa_spec[[paste0(i, "_r01")]] <- rescale(forsa_spec[[i]], to = c(0, 1))
+}
+```
+
+# Inequalities Hausarzt
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+m1 <- lm(
+  log(gp_traveltime) ~ sex + age3 + income4 + migbackground + insurance,
+  data = forsa_gp,
+  weights = weights
+)
+
+m2 <- lm(
+  log(gp_waitingtime_2p) ~ sex + age3 + income4 + migbackground + insurance,
+  data = forsa_gp,
+  weights = weights
+)
+
+m3 <- lm(
+  log(gp_consultationtime) ~ sex + age3 + income4 + migbackground + insurance,
+  data = forsa_gp,
+  weights = weights
+)
+
+m4 <- lm(
+  log(gp_score_comm_r) ~ sex + age3 + income4 + migbackground + insurance,
+  data = forsa_gp,
+  weights = weights
+)
+
+compare_parameters(
+  m1, m2, m3, m4,
+  column_names = c("Travel time", "Waiting time", "Consultation time", "Communication"),
+  select = "ci_p2",
+  exponentiate = TRUE
+) |> print_md(zap_small = TRUE)
+
+out <- compare_performance(m1, m2, m3, m4, metrics = "R2")
+out$Model <- NULL
+out$Name <- c("Travel time", "Waiting time", "Consultation time", "Communication")
+print_md(out, caption = "r-squared")
+```
+
+{{< pagebreak >}}
+
+# Inequalities Facharzt, mixed models
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+m5 <- glmmTMB(
+  log(spec_traveltime) ~ sex + age3 + income4 + migbackground + insurance + (1 | spec_type),
+  data = forsa_spec,
+  weights = weights
+)
+
+m6 <- glmmTMB(
+  log(spec_waitingtime_2p) ~ sex + age3 + income4 + migbackground + insurance + (1 | spec_type),
+  data = forsa_spec,
+  weights = weights
+)
+
+m7 <- glmmTMB(
+  log(spec_consultationtime) ~ sex + age3 + income4 + migbackground + insurance + (1 | spec_type),
+  data = forsa_spec,
+  weights = weights
+)
+
+m8 <- glmmTMB(
+  log(spec_score_comm_r) ~ sex + age3 + income4 + migbackground + insurance + (1 | spec_type),
+  data = forsa_spec,
+  weights = weights
+)
+
+compare_parameters(
+  m5, m6, m7, m8,
+  column_names = c("Travel time", "Waiting time", "Consultation time", "Communication"),
+  select = "ci_p2",
+  exponentiate = TRUE
+) |> print_md(zap_small = TRUE)
+
+out <- compare_performance(m5, m6, m7, m8, metrics = "R2")
+out$Model <- NULL
+out$Name <- c("Travel time", "Waiting time", "Consultation time", "Communication")
+print_md(out, caption = "r-squared")
+```
