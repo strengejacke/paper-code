@@ -4,7 +4,11 @@ This repository contains the data and R code that was used in analyses in my pub
 
 All data and code is also published on [OSF](https://osf.io/j4wsu/).
 
-* Knesebeck Ovd, Lüdecke D, Klein J (submitted) Social variations in perceived access and quality of consultation in outpatient care - results of a population survey from Germany.
+* Vonneilich N, ..., Lüdecke D (in preparation) Depressive symptoms, education, sex and history of migration - an intersectional analysis using data of the German National Cohort (NAKO)
+
+Code: [2024 - 2024 - Depressive Symptoms NAKO](/2024%20-%20Depressive%20Symptoms%20NAKO)
+
+* Knesebeck Ovd, Lüdecke D, Klein J (accepted) Social variations in perceived access and quality of consultation in outpatient care - results of a population survey from Germany.
 
 Code: [2024 - Inequalities Outpatient Care](/2024%20-%20Inequalities%20Outpatient%20Care)
 
