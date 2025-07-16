@@ -4,11 +4,15 @@ This repository contains the data and R code that was used in analyses in my pub
 
 All data and code is also published on [OSF](https://osf.io/j4wsu/).
 
-* Vonneilich N, ..., Lüdecke D (in preparation) Depressive symptoms, education, sex and history of migration - an intersectional analysis using data of the German National Cohort (NAKO)
+* Magnus K, Dammann N, Lüdecke D (2025) Vaccination readiness and political party preference in Germany: Trust, collective responsibility, and the populist radical right. [doi: 10.1371/journal.pone.0328045](https://doi.org/10.1371/journal.pone.0328045)
 
-Code: [2024 - 2024 - Depressive Symptoms NAKO](/2024%20-%20Depressive%20Symptoms%20NAKO)
+Code: [2025 - PlosOne - Vaccine Readiness](/2025%20-%20PlosOne%20-%20Vaccine%20Readiness)
 
-* Knesebeck Ovd, Lüdecke D, Klein J (accepted) Social variations in perceived access and quality of consultation in outpatient care - results of a population survey from Germany.
+* Vonneilich N, ..., Lüdecke D (2025) Depressive symptoms, education, gender and history of migration - an intersectional analysis using data from the German National Cohort (NAKO) [doi: 10.1186/s12939-025-02479-2](https://doi.org/10.1186/s12939-025-02479-2)
+
+Code: [2024 - Depressive Symptoms NAKO](/2024%20-%20Depressive%20Symptoms%20NAKO)
+
+* Knesebeck Ovd, Lüdecke D, Klein J (2024) Social disparities in access and quality of consultation in outpatient care in Germany. [doi: 10.1186/s12875-024-02552-9](https://doi.org/10.1186/s12875-024-02552-9)
 
 Code: [2024 - Inequalities Outpatient Care](/2024%20-%20Inequalities%20Outpatient%20Care)
 
