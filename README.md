@@ -4,6 +4,11 @@ This repository contains the data and R code that was used in analyses in my pub
 
 All data and code is also published on [OSF](https://osf.io/j4wsu/).
 
+* Knesebeck Ovd, Dingoyan D, Makowski A, Klein J, Lüdecke D (under review) Intersectional inequalities in interpersonal health care discrimination in Germany
+
+Code: [2025 - EJPH - Health Care Discrimination](/2025%20-%20EJPH%20-%20Health%20Care%20Discrimination)
+
+
 * Magnus K, Dammann N, Lüdecke D (2025) Vaccination readiness and political party preference in Germany: Trust, collective responsibility, and the populist radical right. [doi: 10.1371/journal.pone.0328045](https://doi.org/10.1371/journal.pone.0328045)
 
 Code: [2025 - PlosOne - Vaccine Readiness](/2025%20-%20PlosOne%20-%20Vaccine%20Readiness)
