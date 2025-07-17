@@ -4,6 +4,10 @@ This repository contains the data and R code that was used in analyses in my pub
 
 All data and code is also published on [OSF](https://osf.io/j4wsu/).
 
+* Nickel S, Lüdecke D, Kofahl C (submitted) The Impact on Family Scale/FaBel: Psychometric testing of a German 18 items short form
+
+Code: [2025 - Fabel Short](/2025%20-%20Fabel%20Short)
+
 * Knesebeck Ovd, Dingoyan D, Makowski A, Klein J, Lüdecke D (under review) Intersectional inequalities in interpersonal health care discrimination in Germany
 
 Code: [2025 - EJPH - Health Care Discrimination](/2025%20-%20EJPH%20-%20Health%20Care%20Discrimination)
