@@ -6,7 +6,7 @@ All data and code is also published on [OSF](https://osf.io/j4wsu/).
 
 * Lüdecke D, Makowski AC, Klein J, Ben-Shachar MS and Makowski D (2026) Choosing informative priors in Bayesian regression models: a simulation study and tutorial using Stan and R. [doi: 10.3389/fpsyg.2026.1856582](https://doi.org/10.3389/fpsyg.2026.1856582)
 
-Code: [2026 - Front Psychol - Choosing Priors](/2026%20-%20Front%20Psychol%20-%20Choosing Priors)
+Code: [2026 - Front Psychol - Choosing Priors](/2026%20-%20Front%20Psychol%20-%20Choosing%20Priors)
 
 * Nickel S, Lüdecke D, Kofahl C (submitted) The Impact on Family Scale/FaBel: Psychometric testing of a German 18 items short form
 
