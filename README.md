@@ -4,11 +4,15 @@ This repository contains the data and R code that was used in analyses in my pub
 
 All data and code is also published on [OSF](https://osf.io/j4wsu/).
 
+* Lüdecke D, Makowski AC, Klein J, Ben-Shachar MS and Makowski D (2026) Choosing informative priors in Bayesian regression models: a simulation study and tutorial using Stan and R. [doi: 10.3389/fpsyg.2026.1856582](https://doi.org/10.3389/fpsyg.2026.1856582)
+
+Code: [2026 - Front Psychol - Choosing Priors](/2026%20-%20Front%20Psychol%20-%20Choosing Priors)
+
 * Nickel S, Lüdecke D, Kofahl C (submitted) The Impact on Family Scale/FaBel: Psychometric testing of a German 18 items short form
 
 Code: [2025 - Fabel Short](/2025%20-%20Fabel%20Short)
 
-* Knesebeck Ovd, Dingoyan D, Makowski A, Klein J, Lüdecke D (under review) Intersectional inequalities in interpersonal health care discrimination in Germany
+* Knesebeck Ovd, Dingoyan D, Makowski A, Klein J, Lüdecke D (2026) Intersectional inequalities in interpersonal health care discrimination in Germany. [doi: 10.1093/eurpub/ckaf162](https://doi.org/10.1093/eurpub/ckaf162)
 
 Code: [2025 - EJPH - Health Care Discrimination](/2025%20-%20EJPH%20-%20Health%20Care%20Discrimination)
 
